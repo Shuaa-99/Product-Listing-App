@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductCard from "../ProductCard/ProductCard";
-import { InputAdornment, TextField, Grid } from "@mui/material";
+import {
+  InputAdornment,
+  TextField,
+  Grid,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import "./ProductList.scss";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -14,6 +22,7 @@ const ProductList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const BASE_URL = "https://dummyjson.com/products";
 
@@ -63,12 +72,23 @@ const ProductList = () => {
       );
     }
 
+    if (selectedCategory !== "") {
+      tempProducts = tempProducts.filter(
+        (product) => product.category === selectedCategory
+      );
+    }
+
     setFilteredProducts(tempProducts);
   };
 
   useEffect(() => {
     handleFilter();
-  }, [searchTerm, minPrice, maxPrice]);
+  }, [searchTerm, minPrice, maxPrice, selectedCategory]);
+
+  // استخدام Set لجلب الكاتيجوري بدون تكرار
+  const categories = Array.from(
+    new Set(products.map((product) => product.category))
+  );
 
   if (loading) return <p>Loading...</p>;
 
@@ -105,6 +125,22 @@ const ProductList = () => {
           variant="outlined"
           size="small"
         />
+        {/* Dropdown لتصفية حسب الكاتيجوري */}
+        <FormControl variant="outlined" size="small">
+          <InputLabel>Category</InputLabel>
+          <Select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            label="Category"
+          >
+            <MenuItem value="">All</MenuItem>
+            {categories.map((category, idx) => (
+              <MenuItem key={idx} value={category}>
+                {category}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
 
       <Grid container spacing={3} className="grid-container">
