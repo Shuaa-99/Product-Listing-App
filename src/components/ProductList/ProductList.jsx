@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductCard from "../ProductCard/ProductCard";
-import { TextField, Grid } from "@mui/material";
+import { InputAdornment, TextField, Grid } from "@mui/material";
 import "./ProductList.scss";
+import SearchIcon from "@mui/icons-material/Search";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -80,6 +81,13 @@ const ProductList = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           variant="outlined"
           size="small"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
         />
         <TextField
           label="Min Price"
