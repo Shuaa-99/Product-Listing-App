@@ -85,7 +85,6 @@ const ProductList = () => {
     handleFilter();
   }, [searchTerm, minPrice, maxPrice, selectedCategory]);
 
-  // استخدام Set لجلب الكاتيجوري بدون تكرار
   const categories = Array.from(
     new Set(products.map((product) => product.category))
   );
@@ -125,7 +124,6 @@ const ProductList = () => {
           variant="outlined"
           size="small"
         />
-        {/* Dropdown لتصفية حسب الكاتيجوري */}
         <FormControl variant="outlined" size="small">
           <InputLabel>Category</InputLabel>
           <Select
